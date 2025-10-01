@@ -75,10 +75,6 @@ public class server {
         System.out.println("Sent packet with sequence: " + sequenceNumber + (isLast ? " (last)" : ""));
     }
 
-    // private static void sendIgnorePacket(DatagramSocket server, InetAddress address, int port, int sequenceNumber) throws Exception {
-    //     ByteBuffer buf = ByteBuffer.allocate(9 + data.length);
-    // }
-
     private static int computeChecksum(byte[] data) {
         int sum = 0;
         for (byte b : data) {
@@ -96,10 +92,9 @@ public class server {
             DatagramPacket dp = new DatagramPacket(buf, buf.length);
             server.receive(dp);
             String filename = new String(dp.getData(),0, dp.getLength()).trim();
-            if(filename != ""){
-                System.out.println("Received request for file: " + filename);
-                sendFile(server, filename, dp.getAddress(), dp.getPort());
-            }
+            System.out.println("Received request for file: " + filename);
+            
+            sendFile(server, filename, dp.getAddress(), dp.getPort());
         }
     }
 }
